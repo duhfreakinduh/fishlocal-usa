@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1b9aaa">
+  <meta name="description" content="FishLocal USA helps families find kid-friendly fishing times, nearby water, local tackle shops, and weather anywhere in the United States.">
+  <meta property="og:title" content="FishLocal USA">
+  <meta property="og:description" content="A colorful family fishing helper for weather, bite windows, spots, shops, and maps across the USA.">
+  <meta property="og:image" content="assets/social-preview.svg">
+  <title>FishLocal USA — Family Fishing Helper</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the fishing report</a>
+
+  <header class="site-header">
+    <div class="cloud cloud-one" aria-hidden="true"></div>
+    <div class="cloud cloud-two" aria-hidden="true"></div>
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="FishLocal USA home">
+        <span class="brand-mascot" aria-hidden="true">
+          <svg viewBox="0 0 120 90" role="img">
+            <path d="M25 43C11 28 5 20 5 20c20-2 31 7 38 16 11-12 30-17 49-9 10 4 18 12 23 22-5 10-13 18-23 22-19 8-38 3-49-9-7 9-18 18-38 16 0 0 6-8 20-23-3-4-3-8 0-12Z" fill="#ffd166" stroke="#17324d" stroke-width="5" stroke-linejoin="round"/>
+            <circle cx="86" cy="43" r="5" fill="#17324d"/>
+            <path d="M98 57c-8 5-17 5-25 0" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round"/>
+            <path d="M53 35c-5-10-2-18 7-23 3 10 1 17-7 23Z" fill="#ff7b72" stroke="#17324d" stroke-width="4"/>
+            <circle cx="24" cy="47" r="4" fill="#ff7b72"/>
+          </svg>
+        </span>
+        <span><strong>FishLocal</strong><small>USA</small></span>
+      </a>
+      <button id="installButton" class="mini-button hidden" type="button">📲 Add app</button>
+    </div>
+    <div class="wave" aria-hidden="true"></div>
+  </header>
+
+  <main id="main">
+    <section id="top" class="hero section-shell">
+      <div class="hero-copy">
+        <p class="eyebrow">🎣 Your family fishing sidekick</p>
+        <h1>Find a fun time and place to fish!</h1>
+        <p class="hero-text">Pick any city or ZIP code in the United States. Finn the Fish will turn the forecast into a simple bite report.</p>
+      </div>
+
+      <div class="locator-card cartoon-card">
+        <form id="searchForm" class="search-form" autocomplete="off">
+          <label for="locationSearch">Where do you want to fish?</label>
+          <div class="search-row">
+            <input id="locationSearch" name="location" type="search" inputmode="search" placeholder="City, state, or ZIP" aria-describedby="searchHelp">
+            <button class="primary-button" type="submit">🔎 Find</button>
+          </div>
+          <p id="searchHelp" class="helper-text">Examples: “Tulsa, OK”, “98101”, or “Outer Banks, NC”</p>
+        </form>
+        <div class="button-row">
+          <button id="locationButton" class="secondary-button" type="button">📍 Use my location</button>
+          <button id="favoriteButton" class="secondary-button" type="button" disabled>☆ Save this spot</button>
+        </div>
+        <div id="searchResults" class="search-results hidden" aria-live="polite"></div>
+        <p id="statusMessage" class="status-message" role="status">Choose a location to start your adventure.</p>
+      </div>
+    </section>
+
+    <section class="report-zone section-shell" aria-labelledby="reportTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Finn's fast report</p>
+          <h2 id="reportTitle">Today’s Bite</h2>
+        </div>
+        <span id="locationBadge" class="location-badge">Waiting for a place…</span>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="bite-card cartoon-card">
+          <div class="score-ring" id="scoreRing" aria-label="Fishing score not calculated yet">
+            <span id="biteScore">--</span>
+            <small>out of 100</small>
+          </div>
+          <div>
+            <p class="card-kicker">Bite meter</p>
+            <h3 id="biteLabel">Let’s find the fish!</h3>
+            <p id="biteReason">Weather, wind, pressure, and sunrise will shape this score.</p>
+          </div>
+        </article>
+
+        <article class="tldr-card cartoon-card">
+          <div class="speech-tail" aria-hidden="true"></div>
+          <div class="mascot-mini" aria-hidden="true">🐟</div>
+          <div>
+            <p class="card-kicker">TL;DR</p>
+            <h3>Finn says…</h3>
+            <p id="tldrText">Search a location and I’ll give you the quick scoop!</p>
+          </div>
+        </article>
+      </div>
+
+      <div id="weatherCards" class="weather-cards" aria-live="polite">
+        <article class="weather-chip"><span>🌡️</span><div><small>Temperature</small><strong>--</strong></div></article>
+        <article class="weather-chip"><span>💨</span><div><small>Wind</small><strong>--</strong></div></article>
+        <article class="weather-chip"><span>☔</span><div><small>Rain chance</small><strong>--</strong></div></article>
+        <article class="weather-chip"><span>🧭</span><div><small>Pressure</small><strong>--</strong></div></article>
+      </div>
+    </section>
+
+    <section class="times-zone section-shell" aria-labelledby="timesTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">When should we go?</p>
+          <h2 id="timesTitle">Best Bite Windows</h2>
+        </div>
+        <span id="moonBadge" class="moon-badge">🌙 Moon: --</span>
+      </div>
+      <div id="biteWindows" class="window-grid">
+        <article class="time-card cartoon-card placeholder-card"><span>🌅</span><h3>Morning</h3><p>Choose a location</p></article>
+        <article class="time-card cartoon-card placeholder-card"><span>☀️</span><h3>Bonus window</h3><p>Choose a location</p></article>
+        <article class="time-card cartoon-card placeholder-card"><span>🌇</span><h3>Evening</h3><p>Choose a location</p></article>
+      </div>
+    </section>
+
+    <section class="map-zone section-shell" aria-labelledby="mapTitle">
+      <div class="section-heading map-heading">
+        <div>
+          <p class="eyebrow">Explore nearby</p>
+          <h2 id="mapTitle">Fishing Map</h2>
+        </div>
+        <div class="map-legend" aria-label="Map legend">
+          <span><b class="legend-dot spot-dot"></b> Fishing</span>
+          <span><b class="legend-dot shop-dot"></b> Supplies</span>
+        </div>
+      </div>
+
+      <div class="map-layout">
+        <div class="map-card cartoon-card">
+          <div id="map" aria-label="Interactive map of nearby fishing places and supply shops"></div>
+          <div class="map-controls">
+            <button id="showAllButton" class="map-filter active" type="button">All</button>
+            <button id="showSpotsButton" class="map-filter" type="button">🐠 Fishing</button>
+            <button id="showShopsButton" class="map-filter" type="button">🪱 Supplies</button>
+          </div>
+        </div>
+
+        <aside class="nearby-panel cartoon-card">
+          <div class="nearby-tabs" role="tablist" aria-label="Nearby results">
+            <button id="spotsTab" class="tab-button active" type="button" role="tab" aria-selected="true">Fishing places</button>
+            <button id="shopsTab" class="tab-button" type="button" role="tab" aria-selected="false">Supply shops</button>
+          </div>
+          <div id="nearbyList" class="nearby-list">
+            <div class="empty-state"><span>🗺️</span><p>Choose a location to find nearby places.</p></div>
+          </div>
+        </aside>
+      </div>
+      <p class="data-note">Map listings come from OpenStreetMap contributors and may be incomplete. Always confirm access, hours, rules, and safety with a grown-up.</p>
+    </section>
+
+    <section class="forecast-zone section-shell" aria-labelledby="forecastTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Plan the week</p>
+          <h2 id="forecastTitle">7-Day Fishing Forecast</h2>
+        </div>
+      </div>
+      <div id="forecastCards" class="forecast-strip">
+        <article class="forecast-card placeholder-card"><strong>Today</strong><span>⛅</span><p>-- / --</p><small>Waiting</small></article>
+      </div>
+    </section>
+
+    <section class="favorites-zone section-shell" aria-labelledby="favoritesTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Your tackle box</p>
+          <h2 id="favoritesTitle">Saved Places</h2>
+        </div>
+      </div>
+      <div id="favoritesList" class="favorites-list">
+        <p class="helper-text">Save a location and it will appear here on this device.</p>
+      </div>
+    </section>
+
+    <section class="safety-zone section-shell">
+      <article class="safety-card cartoon-card">
+        <div class="safety-icon" aria-hidden="true">🦺</div>
+        <div>
+          <p class="card-kicker">Grown-up checkpoint</p>
+          <h2>Safe fishing is happy fishing</h2>
+          <p>Check licenses, seasons, local rules, water conditions, and property access before every trip. Wear a life jacket near deep or moving water and never fish alone.</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-wave" aria-hidden="true"></div>
+    <div class="footer-inner">
+      <span class="footer-fish" aria-hidden="true">🐟</span>
+      <p><strong>FishLocal USA</strong> turns public forecast and map data into a planning estimate—not a catch guarantee.</p>
+      <p class="footer-links"><a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather: Open-Meteo</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">Map data: OpenStreetMap</a></p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
