@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#72d1fa"/><stop offset="1" stop-color="#dff6ff"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" rx="36" fill="url(#sky)"/>
+  <circle cx="1030" cy="105" r="62" fill="#ffd166" stroke="#17324d" stroke-width="10"/>
+  <path d="M0 430c244-83 420-62 579 27 190 106 397 98 621-36v209H0Z" fill="#1b9aaa"/>
+  <path d="M0 510c269-80 470-53 644 41 176 94 358 88 556-10v89H0Z" fill="#087f8c"/>
+  <g transform="translate(700 175)">
+    <path d="M80 116C20 53 0 21 0 21c80-8 123 30 151 68 44-50 121-69 195-35 40 19 72 51 90 92-18 41-50 73-90 92-74 34-151 15-195-35-28 38-71 76-151 68 0 0 20-32 80-94-12-19-12-42 0-61Z" fill="#ffd166" stroke="#17324d" stroke-width="14" stroke-linejoin="round"/>
+    <circle cx="320" cy="122" r="13" fill="#17324d"/>
+    <path d="M348 169c-28 17-59 17-87 0" fill="none" stroke="#17324d" stroke-width="12" stroke-linecap="round"/>
+    <path d="M184 88c-17-35-6-61 26-79 10 34 3 58-26 79Z" fill="#ff7b72" stroke="#17324d" stroke-width="12"/>
+  </g>
+  <text x="82" y="160" fill="#17324d" font-family="Trebuchet MS, Arial, sans-serif" font-size="72" font-weight="900">FishLocal USA</text>
+  <text x="86" y="228" fill="#087f8c" font-family="Trebuchet MS, Arial, sans-serif" font-size="32" font-weight="700">Your family fishing sidekick</text>
+  <g transform="translate(82 285)">
+    <rect width="500" height="168" rx="28" fill="#fffaf0" stroke="#17324d" stroke-width="8"/>
+    <text x="34" y="58" fill="#1b9aaa" font-family="Trebuchet MS, Arial, sans-serif" font-size="24" font-weight="900">TODAY'S BITE</text>
+    <text x="34" y="118" fill="#17324d" font-family="Trebuchet MS, Arial, sans-serif" font-size="46" font-weight="900">Good bite chance!</text>
+    <text x="34" y="150" fill="#536b7d" font-family="Trebuchet MS, Arial, sans-serif" font-size="21">Times • places • weather • shops • map</text>
+  </g>
+</svg>
