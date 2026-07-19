@@ -1,5 +1,6 @@
 name: Deploy FishLocal USA to GitHub Pages
 
+# Re-triggered after GitHub Pages was enabled.
 on:
   push:
     branches: ["main"]
