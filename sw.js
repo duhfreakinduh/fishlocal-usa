@@ -1,11 +1,14 @@
 "use strict";
 
-const CACHE_NAME = "fishlocal-usa-v1";
+const CACHE_NAME = "fishlocal-usa-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
+  "./ai-coach.css",
   "./app.js",
+  "./nearby-fix.js",
+  "./ai-coach.js",
   "./manifest.webmanifest",
   "./assets/icon.svg",
   "./assets/social-preview.svg"
